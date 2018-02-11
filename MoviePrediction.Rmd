@@ -1,0 +1,87 @@
+---
+title: "Movie Rating display and prediction"
+author: "Bhasheyam"
+date: "8 February 2018"
+output: html_document
+runtime: shiny
+---
+#Introduction
+```{r}
+library(shiny)
+ui = fluidPage(
+   tags$style(HTML("
+ p{
+font-size: 14px;
+color:
+
+                   }")),
+  
+  
+tags$p("                      Online movie streaming is one of the common means of release movie in this digital world, though the crazy for theater is not reduced. User also refer to watch movie in home in TV, Laptons and Personal Device. Netflix is one of the well known example. there are plenty sites and service out. This paved the way for recommondation in digital, a way of marketing through Online. Movie and User details are used to find similarity, patterns and stats from the real time datast. objective is to find Recommendation for the movie and user.To bulid an interactive report with can used as app to see recommondation for the user and movie. ")
+)
+server = function(input,output){
+  
+  
+}
+shinyApp(ui = ui, server = server)
+```
+
+#Reading  the data
+```{r}
+setwd("B:/Movie/Dataset/")
+movie_data =  read.csv("MovieDetail.csv")
+rating_data = read.csv("User.csv")
+User_info = read.csv("userinfo.csv")
+```
+
+#dataset Visualis
+```{r}
+library(shiny)
+ui = fluidPage(
+  fluidRow(
+      tags$style(HTML("
+                    li {
+                    font-size: 36px;
+
+                       }
+                     li span {
+                    font-size: 18px;
+                    }
+                    ul {
+                    list-style-type: square;
+                    }
+                     h1{
+                    font-size: 32px;
+                    color : #4286f4
+                    
+                     }
+
+                  ")
+                )
+              ,
+  tags$h1("Movie dataset display"),
+      tags$h2("This process  consist of following dataset"),
+  tags$ul(
+    tags$li(tags$span("The Movie dataset has the detail about the movieId name and Genres."),actionButton("movie", "View")),
+    tags$li(tags$span("The Movie dataset has the detail about the movieId name and Genres."),actionButton("rating", "View")),
+    tags$li(tags$span("The rating consist of the User and rating for the movie.") ,actionButton("user", "View"))
+   
+  )),
+  fluidRow( mainPanel(
+    dataTableOutput("table")
+  ))
+)  
+server = function(input,output){
+   observeEvent(input$movie, {
+    output$table= renderDataTable(movie_data)
+  })
+  observeEvent(input$rating, {
+    output$table= renderDataTable(rating_data)
+  })
+  observeEvent(input$user, {
+    output$table= renderDataTable(User_info)
+  })
+}
+shinyApp(ui = ui, server = server)
+```
+

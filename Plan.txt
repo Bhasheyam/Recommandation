@@ -1,0 +1,16 @@
+Code plan:
+Master Record
+Movie type expansion
+Spare Matrix for movie id vs user id.
+function to find the distance, cosine distance 
+Compare function.
+
+
+Shiny,
+Introdction,
+Explanation,
+Findings,
+Visual part,
+Search Part,
+Recommadtion part,
+Result.
