@@ -34,6 +34,9 @@ rating_data = read.csv("User.csv")
 User_info = read.csv("userinfo.csv")
 ```
 
+
+
+
 #dataset Visualis
 ```{r}
 library(shiny)
@@ -62,12 +65,16 @@ ui = fluidPage(
   tags$h1("Movie dataset display"),
       tags$h2("This process  consist of following dataset"),
   tags$ul(
-    tags$li(tags$span("The Movie dataset has the detail about the movieId name and Genres."),actionButton("movie", "View")),
-    tags$li(tags$span("The Movie dataset has the detail about the movieId name and Genres."),actionButton("rating", "View")),
-    tags$li(tags$span("The rating consist of the User and rating for the movie.") ,actionButton("user", "View"))
+    tags$li(tags$span("The Movie dataset has the detail about the movieId name and Genres."),actionButton("movie", "View"),actionButton
+            ("moviesummary","Summary")),
+    tags$li(tags$span("The rating dataset consist of the User and rating for the movie."),actionButton("rating", "View"),actionButton
+            ("ratingummary","Summary")),
+    tags$li(tags$span("The User dataset consist of details about the user") ,actionButton("user", "View"),actionButton
+            ("usersummary","Summary"))
    
   )),
   fluidRow( mainPanel(
+    textOutput("summaryr"),
     dataTableOutput("table")
   ))
 )  
@@ -81,7 +88,48 @@ server = function(input,output){
   observeEvent(input$user, {
     output$table= renderDataTable(User_info)
   })
+  observeEvent(input$moviesummary, {
+    output$summaryr= renderText(summary(movie_data))
+  })
+  observeEvent(input$ratingummary, {
+    output$summaryr= renderText(summary(rating_data))
+  })
+  observeEvent(input$usersummary, {
+    output$summaryr= renderText(summary(User_info))
+  })
 }
 shinyApp(ui = ui, server = server)
+```
+
+```{r}
+fix(rating_data)
+```
+```{r}
+library(ggplot2)
+ggplot(User_info,aes(age)) + geom_bar(aes(fill = Gender)) +theme_dark()
+```
+
+
+```{r}
+library(shiny)
+ui = fluidPage(
+   tags$style(HTML("
+ 
+
+                   "))
+   
+  
+  
+)
+server = function(input,output){
+  
+  
+}
+shinyApp(ui = ui, server = server)
+```
+```{r}
+library(Matrix)
+rating_index = sparseMatrix(i = rating_data$User_Id,j=rating_data$Movie_Id,x = rating_data$Rating)
+
 ```
 
