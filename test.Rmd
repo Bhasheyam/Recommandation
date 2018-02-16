@@ -1,0 +1,43 @@
+---
+title: "Untitled"
+author: "Bhasheyam"
+date: "15 February 2018"
+output: html_document
+runtime: shiny
+---
+
+```{r}
+library(shiny)
+ui = fluidPage(
+  tags$style(HTML("
+                  
+                  
+                  ")),
+  
+  h2(" BAR Plot for USER INFO"),
+  fluidRow(
+    sidebarLayout(
+      sidebarPanel( 
+        selectInput("xaxis", h3("x-axis(bar)"),c("age" = "age","Gender"= "Gender","Occupation" = "Occupation")  ), 
+        selectInput("fill", h3("fill(bar)"),c("Gender","age","Occupation")  ),
+        actionButton(inputId = "Create", "Create")
+      )
+      ,
+      mainPanel(textOutput("here"))
+    )
+    
+  )
+  
+  )
+server = function(input,output){
+  observeEvent(input$Create,{
+   
+    x = input$xaxis
+    y = input$fill
+     output$here = renderText(text("working"))
+    })
+}
+shinyApp(ui = ui, server = server)
+```
+
+
