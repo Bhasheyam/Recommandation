@@ -125,12 +125,10 @@ ui = fluidPage(
 )
 server = function(input,output){
   observeEvent(input$Create,{
-    x = input$xaxis
-    y = input$fill
-    z = subset(User_info,select= c(x,y))
-    
+    x = User_info[,input$xaxis]
+    y = User_info[,input$fill]
      #output$here = renderPlot(ggplot(User_info,aes(Occupation)) + geom_bar(aes(fill = Gender)) +theme_dark())
-    output$here = renderPlot(ggplot(User_info,aes(Occupation)) + geom_bar(aes(fill = Gender)) +theme_dark())
+    output$here = renderPlot(ggplot(User_info,aes(x)) + geom_bar(aes(fill = y)) +theme_dark() + theme(axis.text.x = element_text(angle = 90, hjust = 1)))
     })
  
     
@@ -147,6 +145,7 @@ text(input$xaxis,input$fill)
 ```{r}
 library(Matrix)
 rating_index = sparseMatrix(i = rating_data$User_Id,j=rating_data$Movie_Id,x = rating_data$Rating)
-
+#rating_index = as.data.frame(rating_index)
+head(rating_index)
 ```
 
